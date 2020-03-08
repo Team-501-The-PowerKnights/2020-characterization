@@ -69,10 +69,10 @@ public class Robot extends TimedRobot {
 
     stick = new Joystick(0);
 
-    leftFrontMotor = new CANSparkMax(23, MotorType.kBrushless);
-    leftRearMotor = new CANSparkMax(22, MotorType.kBrushless);
-    rightFrontMotor = new CANSparkMax(20, MotorType.kBrushless);
-    rightRearMotor = new CANSparkMax(21, MotorType.kBrushless);
+    leftFrontMotor = new CANSparkMax(20, MotorType.kBrushless);
+    leftRearMotor = new CANSparkMax(21, MotorType.kBrushless);
+    rightFrontMotor = new CANSparkMax(23, MotorType.kBrushless);
+    rightRearMotor = new CANSparkMax(22, MotorType.kBrushless);
 
     leftFrontMotor.setIdleMode(IdleMode.kBrake);
     leftRearMotor.setIdleMode(IdleMode.kBrake);
@@ -82,7 +82,7 @@ public class Robot extends TimedRobot {
     left = new SpeedControllerGroup(leftFrontMotor, leftRearMotor);
     right = new SpeedControllerGroup(rightFrontMotor, rightRearMotor);
 
-    left.setInverted(false);
+    left.setInverted(true);
     right.setInverted(true);
 
     leftEncoder = new CANEncoder(leftFrontMotor);
@@ -96,7 +96,7 @@ public class Robot extends TimedRobot {
     // Note that the angle from the NavX and all implementors of wpilib Gyro
     // must be negated because getAngle returns a clockwise positive angle
     navx = new AHRS(SPI.Port.kMXP);
-    gyroAngleRadians = () -> Math.toRadians(navx.getAngle());
+    gyroAngleRadians = () -> -1 * Math.toRadians(navx.getAngle());
 
     //
     // Configure drivetrain movement
@@ -113,8 +113,8 @@ public class Robot extends TimedRobot {
 
     final double encoderConstant = (1 / GEARING) * WHEEL_DIAMETER * Math.PI;
 
-    leftEncoderPosition = () -> leftEncoder.getPosition() * encoderConstant;
-    leftEncoderRate = () -> leftEncoder.getVelocity() * encoderConstant / 60.;
+    leftEncoderPosition = () -> -1 * leftEncoder.getPosition() * encoderConstant;
+    leftEncoderRate = () -> -1 * leftEncoder.getVelocity() * encoderConstant / 60.;
 
     rightEncoderPosition = () -> rightEncoder.getPosition() * encoderConstant;
     rightEncoderRate = () -> rightEncoder.getVelocity() * encoderConstant / 60.;
